@@ -4,13 +4,17 @@ const rows = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
 
 const buttons = rows.map((row) => row.split(""));
 
-export const Keyboard = ({ onBackspace, onPressed }) => (
+export const Keyboard = ({ onBackspace, onPressed, letterClasses }) => (
   <div className="keyboard">
     <div>
       {buttons.map((row, index) => (
         <div key={index}>
           {row.map((letter) => (
-            <button onClick={() => onPressed(letter)} key={letter}>
+            <button
+              className={letterClasses[letter]}
+              onClick={() => onPressed(letter)}
+              key={letter}
+            >
               {letter}
             </button>
           ))}
