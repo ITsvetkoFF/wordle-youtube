@@ -42,6 +42,14 @@ export const Field = () => {
 
   const [blockedInput, setBlockedInput] = useState(false);
 
+  const currentWord = useMemo(() => {
+    const prevCell = getPrevCell(board);
+    return board
+      .find((row) => (prevCell ? row.includes(prevCell) : undefined))
+      ?.map((cell) => cell.letter)
+      .join("");
+  }, [board]);
+
   useEffect(() => {
     const onKeydown = (e) => {
       if (e.key === "Backspace") {
@@ -55,15 +63,7 @@ export const Field = () => {
     return () => {
       document.removeEventListener("keydown", onKeydown);
     };
-  }, [board, blockedInput]);
-
-  const currentWord = useMemo(() => {
-    const prevCell = getPrevCell(board);
-    return board
-      .find((row) => (prevCell ? row.includes(prevCell) : undefined))
-      ?.map((cell) => cell.letter)
-      .join("");
-  }, [board]);
+  }, [blockedInput, currentWord]);
 
   useEffect(() => {
     if (currentWord && currentWord.length === WORD_LENGTH) {
